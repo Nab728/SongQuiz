@@ -28,7 +28,7 @@ function checkTurn()
     return 2;
 }
 document.addEventListener('DOMContentLoaded', function(){
-        fetch("topHits.json")           
+        fetch("./topHits.json")           
         .then((result) => {
             return result.json()
         }).then((data) => {
@@ -233,7 +233,7 @@ function nextSong()
     playerOneTurn = !playerOneTurn;
     let turn = checkTurn();
     document.querySelector(".turn").innerHTML = "Player " + turn + " Turn"; 
-
+    document.querySelector(".score").innerHTML = "Player 1: " + p1Score + "&nbsp&nbsp" + "Player 2: " + p2Score;
     //basically do what submit would've done and show the answer
     titleAns = formatString(title);
     document.querySelector("#answer").innerHTML = "Answer: " + titleAns.trim();
