@@ -28,7 +28,6 @@ const TOKEN = "https://accounts.spotify.com/api/token";
 var access_token = null;
 var refresh_token = null;
 
-//get user's access token
 function onPageLoad(){
     client_id = localStorage.getItem("client_id");
     client_secret = localStorage.getItem("client_secret");
@@ -36,24 +35,33 @@ function onPageLoad(){
     {
         handleRedirect();
     }
-    else{
+    else
+    {
         access_token = localStorage.getItem("access_token");
         if ( access_token == null ){
             // we don't have an access token so present token section
             document.getElementById("startPage").style.display = 'flex';  
         }
         else {
-            document.getElementById("gamePage").style.display = 'block';  
-            startSongPlayer();
+            // we have an access token so present device section
+            document.getElementById("gamePage").style.display = 'block';
+            fetch("./topHits.json")           
+            .then((result) => {
+                
+                return result.json()
+            }).then((data) => {
+                songs = data.items 
+                startSongPlayer() 
+            });
         }
+       
     }
 }
 function handleRedirect(){
     let code = getCode();
-    fetchAccessToken(code);
+    fetchAccessToken( code );
     window.history.pushState("", "", redirect_uri); // remove param from url
 }
-//get access_token
 function fetchAccessToken(code){
     let body = "grant_type=authorization_code";
     body += "&code=" + code; 
@@ -70,7 +78,7 @@ function callAuthorizationApi(body){
     xhr.send(body);
     xhr.onload = handleAuthorizationResponse;
 }
-//get the code param after the url loads
+
 function getCode(){
     let code = null;
     const queryString = window.location.search;
@@ -80,12 +88,11 @@ function getCode(){
     }
     return code;
 }
-//handle the response back from spotifyApi
 function handleAuthorizationResponse(){
+    
     if ( this.status == 200 ){
         var data = JSON.parse(this.responseText);
-        // console.log(data);
-        var data = JSON.parse(this.responseText);
+        console.log("data is" + data);
         if ( data.access_token != undefined ){
             access_token = data.access_token;
             localStorage.setItem("access_token", access_token);
@@ -108,23 +115,14 @@ function refreshAccessToken(){
     body += "&client_id=" + client_id;
     callAuthorizationApi(body);
 }
-//call to get the tokens
-function callAuthorizationApi(body){
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", TOKEN, true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.setRequestHeader('Authorization', 'Basic ' + btoa(client_id + ":" + client_secret));
-    xhr.send(body);
-    xhr.onload = handleAuthorizationResponse;
-}
-//start of the request for spotify to get the tokens (needs you to sign in first)
+
 function requestAuthorization()
 {
     let url = AUTHORIZE;
     client_id = document.getElementById("clientId").value;
     client_secret = document.getElementById("clientSecret").value;
     localStorage.setItem("client_id", client_id);
-    localStorage.setItem("client_secret", client_secret)
+    localStorage.setItem("client_secret", client_secret); // In a real app you should not expose your client_secret to the user
     url += "?client_id=" + client_id;
     url += "&response_type=code";
     url += "&redirect_uri=" + encodeURI(redirect_uri);
@@ -140,12 +138,6 @@ function checkTurn()
     return 2;
 }
 document.addEventListener('DOMContentLoaded', function(){
-        fetch("./topHits.json")           
-        .then((result) => {
-            return result.json()
-        }).then((data) => {
-            songs = data.items 
-    });
     document.querySelector("#form").addEventListener('submit', function(e) {
         let answer = document.querySelector("#songTitle").value;
         let answer2 = document.querySelector("#songArtist").value;
@@ -217,9 +209,9 @@ function callApi(str, callback)
     //turns it to what the actual search query is (works for all languages to varying degrees tho)
     str = encodeURIComponent(str);
     xhr = new XMLHttpRequest();
-    xhr.open("GET", 'https://api.spotify.com/v1/search?q=' + str + '&type=track', true);
+    xhr.open("GET", 'https://api.spotify.com/v1/search?q=' + "heat" + '&type=track', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem(access_token)); 
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("access_token")); 
     xhr.onload = callback;
     xhr.send();
    
@@ -241,7 +233,7 @@ function processRequest()
     }
     else
     {
-        //alert("Error replace you access_token");
+        alert("Error replace you access_token");
     }
 }
 function replay()
@@ -253,7 +245,7 @@ function replay()
 }
 function chooseSong()
 {
-    //console.log(songs.length);
+    console.log(songs);
     let index = Math.floor(Math.random() * songs.length); 
     while (prevSongs.includes(index))
     {
