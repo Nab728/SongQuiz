@@ -20,7 +20,7 @@ html, body
     height: 50%;
  }
 #video-container iframe {
-    marign-top: 20%
+    marign-top: 50%;
 }
 #startPage
 {
