@@ -7,16 +7,22 @@ html, body
 }
 #video-container {
     position: relative;
-    width: 400%; /* enlarge beyond browser width */
-    left: -150%; /* center */
+    width: 300%; /* enlarge beyond browser width */
+    left: -100%; /* center */
 }
+
 #video-container iframe {
     width: 100%;
     height: 100%;
 }
-#answer, #answer2
+#startPage
 {
-  font-size: 3vh; 
+    display: none;
+    flex-direction: column;
+    font-size: 4vh;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
 .wrapper {
     
@@ -24,9 +30,14 @@ html, body
     /* background-color: aliceblue; */
     /* height: 0; */
     /* change video width */
-    width: 50%;
-    height: 100%;
+    width: 10%;
+    height: 10%;
  }
+#answer, #answer2
+{
+  font-size: 3vh; 
+}
+
 .score-container
 {
     height: 10%;
