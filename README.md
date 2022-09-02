@@ -10,7 +10,7 @@
 - Uses Html, CSS, BootStrap, and Vanilla Javascript
 
 ## FAQ
-Q: Why did you not make the youtube videos autoplay by itself rather than us having to click to start the video? a <br />
+Q: Why did you not make the youtube videos autoplay by itself rather than us having to click to start the video? <br>
 A: Youtube TOS says you can't autoplay with sound on and only with sound off when on websites.
 - Why did you use the Spotify Web Api?
 This is because Youtube Music Videos don't follow the same format (i.e Artist Name - Title Of Song (Official Music Video)) in order to access more accurate titles and artist.
