@@ -3,25 +3,134 @@ var prevSongs = [];
 let p1Score = 0;
 let p2Score = 0;
 let songIndex = 0;
-let access_token = "BQDtGX9u31DFjbzeNtyrf3NNu98L7-nbYDrOoDduwFSgw3qV3c30BDmVBjAGTsm3wFoNCuzQ0xe5RmEpElAENloJEeGpU3JJMMCtryocwhNKnPe4cOfpwJDZCsyttcrs0MSq8MwAi9bnBxhIvYpo0IWXR06ANuVzWTeUXb4_rrgCTQ-pQeKqIE1JumUun_mt9rv2FlErqmOL3ho-1cdmGaLUMJaNZvBr";
 let xhr;
 var title;
 var artist;
 let playerOneTurn = true;
-
 //load youtube api
 var tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-//start of the video need to be global for the replay function
 let start;
 //youtbe player variables
 var player;
 var isWorking = false;
 var done = false;
 
+//url change to your domain of the website
+var redirect_uri = "http://127.0.0.1:5501/templates/index.html"; //switch to the html page you are 
+var client_id;
+var client_secret;
+
+const AUTHORIZE = "https://accounts.spotify.com/authorize";
+const TOKEN = "https://accounts.spotify.com/api/token";
+var access_token = null;
+var refresh_token = null;
+
+//get user's access token
+function onPageLoad(){
+    client_id = localStorage.getItem("client_id");
+    client_secret = localStorage.getItem("client_secret");
+    if ( window.location.search.length > 0 )
+    {
+        handleRedirect();
+    }
+    else{
+        access_token = localStorage.getItem("access_token");
+        if ( access_token == null ){
+            // we don't have an access token so present token section
+            document.getElementById("startPage").style.display = 'flex';  
+        }
+        else {
+            document.getElementById("gamePage").style.display = 'block';  
+            startSongPlayer();
+        }
+    }
+}
+function handleRedirect(){
+    let code = getCode();
+    fetchAccessToken(code);
+    window.history.pushState("", "", redirect_uri); // remove param from url
+}
+//get access_token
+function fetchAccessToken(code){
+    let body = "grant_type=authorization_code";
+    body += "&code=" + code; 
+    body += "&redirect_uri=" + encodeURI(redirect_uri);
+    body += "&client_id=" + client_id;
+    body += "&client_secret=" + client_secret;
+    callAuthorizationApi(body);
+}
+function callAuthorizationApi(body){
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", TOKEN, true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('Authorization', 'Basic ' + btoa(client_id + ":" + client_secret));
+    xhr.send(body);
+    xhr.onload = handleAuthorizationResponse;
+}
+//get the code param after the url loads
+function getCode(){
+    let code = null;
+    const queryString = window.location.search;
+    if ( queryString.length > 0 ){
+        const urlParams = new URLSearchParams(queryString);
+        code = urlParams.get('code')
+    }
+    return code;
+}
+//handle the response back from spotifyApi
+function handleAuthorizationResponse(){
+    if ( this.status == 200 ){
+        var data = JSON.parse(this.responseText);
+        // console.log(data);
+        var data = JSON.parse(this.responseText);
+        if ( data.access_token != undefined ){
+            access_token = data.access_token;
+            localStorage.setItem("access_token", access_token);
+        }
+        if ( data.refresh_token  != undefined ){
+            refresh_token = data.refresh_token;
+            localStorage.setItem("refresh_token", refresh_token);
+        }
+        onPageLoad();
+    }
+    else {
+        console.log(this.responseText);
+        alert(this.responseText);
+    }
+}
+function refreshAccessToken(){
+    refresh_token = localStorage.getItem("refresh_token");
+    let body = "grant_type=refresh_token";
+    body += "&refresh_token=" + refresh_token;
+    body += "&client_id=" + client_id;
+    callAuthorizationApi(body);
+}
+//call to get the tokens
+function callAuthorizationApi(body){
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", TOKEN, true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('Authorization', 'Basic ' + btoa(client_id + ":" + client_secret));
+    xhr.send(body);
+    xhr.onload = handleAuthorizationResponse;
+}
+//start of the request for spotify to get the tokens (needs you to sign in first)
+function requestAuthorization()
+{
+    let url = AUTHORIZE;
+    client_id = document.getElementById("clientId").value;
+    client_secret = document.getElementById("clientSecret").value;
+    localStorage.setItem("client_id", client_id);
+    localStorage.setItem("client_secret", client_secret)
+    url += "?client_id=" + client_id;
+    url += "&response_type=code";
+    url += "&redirect_uri=" + encodeURI(redirect_uri);
+    url += "&show_dialog=true";
+    window.location.href = url; // Show Spotify's authorization screen
+}
 function checkTurn()
 {
     if(playerOneTurn)
@@ -36,8 +145,6 @@ document.addEventListener('DOMContentLoaded', function(){
             return result.json()
         }).then((data) => {
             songs = data.items 
-            //console.log(data); 
-            
     });
     document.querySelector("#form").addEventListener('submit', function(e) {
         let answer = document.querySelector("#songTitle").value;
@@ -107,11 +214,12 @@ function formatString(s)
 // ok so XMLHTTPRequest only works if you have an onload otherwise you can only call it once
 function callApi(str, callback)
 {
-    str = str.replaceAll(" ", "%20");
+    //turns it to what the actual search query is (works for all languages to varying degrees tho)
+    str = encodeURIComponent(str);
     xhr = new XMLHttpRequest();
     xhr.open("GET", 'https://api.spotify.com/v1/search?q=' + str + '&type=track', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.setRequestHeader('Authorization', 'Bearer ' + access_token); 
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem(access_token)); 
     xhr.onload = callback;
     xhr.send();
    
@@ -133,13 +241,15 @@ function processRequest()
     }
     else
     {
-        alert("Error replace you access_token");
+        //alert("Error replace you access_token");
     }
 }
 function replay()
 { 
     var videoPlayer = document.querySelector('#video-container');
-     videoPlayer.src = videoPlayer.src + "&start=" + start + "&end=" + (start + 10);
+    console.log(videoPlayer.src);
+    videoPlayer.src = videoPlayer.src + "&start=" + start + "&end=" + (start + 10);
+    console.log(videoPlayer.src);
 }
 function chooseSong()
 {
@@ -165,7 +275,7 @@ function onYouTubeIframeAPIReady()
     //console.log("Youtube iframe works");
     if (firstTime && songs != null)
     { 
-        startSongPlayer();
+        //startSongPlayer();
         firstTime = false;
         
     }
@@ -216,9 +326,9 @@ function onPlayerStateChange(event) {
     {
        document.querySelector('.wrapper').style.pointerEvents = "none";
        document.querySelector('.wrapper').style.display = "none";
-        
-        setTimeout(stopVideo, 10000);
-         
+       
+       setTimeout(stopVideo, 10000);
+    
     }
 }
 function stopVideo() {
