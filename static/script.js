@@ -1,12 +1,13 @@
 let songs;
 var prevSongs = [];
-let score = 0;
+let p1Score = 0;
+let p2Score = 0;
 let songIndex = 0;
 let access_token = "BQAG_eawW6bfkgf4yC0eUWYWRnxoTjZongemPMTdBak1NeTZcRQyoTKEl4TNkDNY-koJj8X59GJeLDikZnubbNt9t2aQguGcV11NsxTQDq-nQYbe83C2NQ30ESRjX3X29jUFoHEDBUEacktlVXX0bktF-rhghql6wiEk7BP14ZP9SGDugUIVU-UF9Ktx8vEWdsKVJp0DVdNxSOvzVwwb5n-aEoOvq-Cp";
 let xhr;
 var title;
 var artist;
-let clickedOnIframe = false;
+let playerOneTurn = true;
 //load youtube api
 var tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
@@ -18,7 +19,14 @@ var player;
 var isWorking = false;
 var done = false;
 
-
+function checkTurn()
+{
+    if(playerOneTurn)
+    {
+        return 1;
+    }
+    return 2;
+}
 document.addEventListener('DOMContentLoaded', function(){
         fetch("./topHits.json")           
         .then((result) => {
@@ -32,26 +40,45 @@ document.addEventListener('DOMContentLoaded', function(){
         let answer = document.querySelector("#songTitle").value;
         let answer2 = document.querySelector("#songArtist").value;
         titleAns = formatString(title);
-        console.log(artist);
-        if (answer.toLowerCase().trim() == titleAns.toLowerCase().trim())
+        artistAns = formatString(artist);
+        addScore(answer, titleAns, answer2, artistAns);
+        document.querySelector("#answer").innerHTML = "Answer: " + titleAns.trim();
+        document.querySelector("#answer2").innerHTML = "Artist: " + artist.trim();
+        document.getElementById("submit").style.display = "none";
+        nextSong();
+        e.preventDefault();
+    });
+    
+    function addScore(title, titleAns, artistAns, artist, playerOneTurn)
+    {
+       
+        if (title.toLowerCase().trim() == titleAns.toLowerCase().trim())
         {
-            score++;
-            if(answer2.toLowerCase().trim() == artist.toLowerCase().trim())
+            if(playerOneTurn)
             {
-                score++;
+                p1Score++;
+            }
+            else
+            {
+                p2Score++;
+            }
+            if(artistAns.toLowerCase().trim() == artist.toLowerCase().trim())
+            {
+                if(playerOneTurn)
+                {
+                    p1Score++;
+                }
+                else
+                {
+                    p2Score++;
+                }
             }
             let textBox = document.querySelector(".score");
             textBox.innerHTML = "Score : " + score;
             document.getElementById("songTitle").value = ""; 
             document.querySelector("#songArtist").value = "";
         }
-        document.querySelector("#answer").innerHTML = "Answer: " + titleAns.trim();
-        document.querySelector("#answer2").innerHTML = "Artist: " + artist.trim();
-        
-        document.getElementById("submit").style.display = "none";
-        nextSong();
-        e.preventDefault();
-    });
+    }
 });
 
 
@@ -199,21 +226,34 @@ function stopVideo() {
 }
 function nextSong()
 {
+    //start next song
     startSongPlayer();
+
+    //show player turn
+    playerOneTurn = !playerOneTurn;
+    let turn = checkTurn();
+    document.querySelector(".turn").innerHTML = "Player " + turn + " Turn"; 
+
+    //basically do what submit would've done and show the answer
     titleAns = formatString(title);
     document.querySelector("#answer").innerHTML = "Answer: " + titleAns.trim();
     document.querySelector("#answer2").innerHTML = "Artist: " + artist.trim();
+
+    //show submit and video back
     setTimeout(function()
     {
-        document.querySelector(".wrapper").style.display = "block";
+        document.querySelector(".wrapper").style.display = "block"; 
+        document.querySelector(".wrapper").style.pointerEvents = "all";
     }, 500);
     setTimeout(function(){
         document.getElementById("submit").style.display = "block";
         
     }, 2000);
-    document.querySelector(".wrapper").style.pointerEvents = "all";
+    //set the input field to null values
     document.getElementById("songTitle").value = ""; 
-    document.querySelector("#songArtist").value = "";
+    document.getElementById("songArtist").value = "";
+
+    //remove the answer key after 2 seconds
     setTimeout(function(){
         document.querySelector("#answer").innerHTML = "";
         document.querySelector("#answer2").innerHTML = "";
