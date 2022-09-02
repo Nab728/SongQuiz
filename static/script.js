@@ -8,12 +8,15 @@ let xhr;
 var title;
 var artist;
 let playerOneTurn = true;
+
 //load youtube api
 var tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
+//start of the video need to be global for the replay function
+let start;
 //youtbe player variables
 var player;
 var isWorking = false;
@@ -136,7 +139,7 @@ function processRequest()
 function replay()
 { 
     var videoPlayer = document.querySelector('#video-container');
-    videoPlayer.src = videoPlayer.src;
+     videoPlayer.src = videoPlayer.src + "&start=" + start + "&end=" + (start + 10);
 }
 function chooseSong()
 {
@@ -192,7 +195,6 @@ function createPlayer(id)
     }
     
 }
-let start;
 function startSongPlayer()
 { 
     songIndex = chooseSong();
