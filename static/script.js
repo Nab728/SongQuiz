@@ -5,7 +5,7 @@ let songIndex = 0;
 let access_token = "BQAG_eawW6bfkgf4yC0eUWYWRnxoTjZongemPMTdBak1NeTZcRQyoTKEl4TNkDNY-koJj8X59GJeLDikZnubbNt9t2aQguGcV11NsxTQDq-nQYbe83C2NQ30ESRjX3X29jUFoHEDBUEacktlVXX0bktF-rhghql6wiEk7BP14ZP9SGDugUIVU-UF9Ktx8vEWdsKVJp0DVdNxSOvzVwwb5n-aEoOvq-Cp";
 let xhr;
 var title;
-var time;
+var artist;
 let clickedOnIframe = false;
 //load youtube api
 var tag = document.createElement('script');
@@ -177,13 +177,8 @@ function startSongPlayer()
     checkTitle(songs[songIndex].snippet.title);
     //console.log("After is " + title);
     //time is undefined in the beginning for some reason but it still works so ig that's ok
-    if (time == undefined)
-    {
-        time = 100;
-    }
+    start = Math.floor(Math.random() * (150 - 20 + 1)) + 20;
     //console.log(songs[songIndex].snippet.title);
-    //0 to length of the song - 20 seconds (so we don't play the end of the song)
-    start = Math.floor(Math.random() * (time - 20));
     createPlayer(songs[songIndex].snippet.resourceId.videoId, start);
 }
 //set start of clip and play the video
