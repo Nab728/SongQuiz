@@ -26,4 +26,8 @@ Q: I can adjust what part of the video in the beginning. Is that a feature?<br><
 A: I hope you don't.<br><br>
 
 Q: I found a bug/It doesn't work?<br><br>
-A: Try refreshing the page and if the bug still occurs multiple times then uhhh Idk ig I'll try to work on it.
+A: Try refreshing the page and if the bug still occurs multiple times then uhhh Idk ig I'll try to work on it.<br><br>
+
+
+Q: The Answer is incorrect!!!<br><br>
+A: That's mainly the title of the music video's fault so if you add your own in make sure to not have a bunch of random words in the youtube video <br><br>
