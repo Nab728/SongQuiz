@@ -14,7 +14,7 @@ Q: Why did you not make the youtube videos autoplay by itself rather than us hav
 A: Youtube TOS says you can't autoplay with sound on and only with sound off when on websites.<br><br>
 
 Q: Why did you use the Spotify Web Api? <br><br>
-A: This is because Youtube Music Videos don't follow the same format (i.e Artist Name - Title Of Song (Official Music Video)) in order to access more accurate titles and artist. <br><br>
+A: This is because Youtube Music Videos don't follow the same format (i.e Artist Name - Title Of Song (Official Music Video)) so in order to access more accurate titles and artist we have to use spotify api. <br><br>
 
 Q: Why didn't you just use the Spotify Web Api to play songs?<br><br>
 A: Not all songs in the Spotify Web Api have a preview url and also to play songs on the web you need a premium account <br><br>
