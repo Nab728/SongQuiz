@@ -2,7 +2,7 @@ let songs;
 var prevSongs = [];
 let score = 0;
 let songIndex = 0;
-let access_token = "BQACNkJ6Wx1UKKTn_A74QQCZsqPD3Yni6rHo_bysqkrdyBQthVj4WClyZpsyO9BZVNXN4K2otUDeRQJeMzr5gWTXI65DHQB1FZ7fqzodIi3b7FQDlpa1e2J0orzBIFi7k9FnQqc1e1sf5Qix4-cE6DdLih8VWJcQVbhFm00oYYQIErSBCFVWBnDq_XDzlb1DpJNviA0Ip4eaDTjzq9UWxFZ4XXVO4qrD";
+let access_token = "BQAG_eawW6bfkgf4yC0eUWYWRnxoTjZongemPMTdBak1NeTZcRQyoTKEl4TNkDNY-koJj8X59GJeLDikZnubbNt9t2aQguGcV11NsxTQDq-nQYbe83C2NQ30ESRjX3X29jUFoHEDBUEacktlVXX0bktF-rhghql6wiEk7BP14ZP9SGDugUIVU-UF9Ktx8vEWdsKVJp0DVdNxSOvzVwwb5n-aEoOvq-Cp";
 let xhr;
 var title;
 var time;
@@ -116,7 +116,7 @@ function replay()
 }
 function chooseSong()
 {
-    //console.log(songs.length);
+    console.log(songs.length);
     let index = Math.floor(Math.random() * songs.length); 
     while (prevSongs.includes(index))
     {
@@ -129,6 +129,7 @@ function chooseSong()
         // removes first element from the array
         prevSongs.shift();
     }
+    console.log(index);
     return index;
 }
 let firstTime = true;
@@ -197,11 +198,8 @@ function onPlayerStateChange(event) {
     {
        document.querySelector('.wrapper').style.pointerEvents = "none";
        document.querySelector('.wrapper').style.display = "none";
-        if (!done)
-        {
-            setTimeout(stopVideo, 10000);
-            done = true;
-        }
+        
+       setTimeout(stopVideo, 10000);
     }
 }
 function stopVideo() {
