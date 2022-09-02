@@ -209,7 +209,7 @@ function callApi(str, callback)
     //turns it to what the actual search query is (works for all languages to varying degrees tho)
     str = encodeURIComponent(str);
     xhr = new XMLHttpRequest();
-    xhr.open("GET", 'https://api.spotify.com/v1/search?q=' + "heat" + '&type=track', true);
+    xhr.open("GET", 'https://api.spotify.com/v1/search?q=' + str + '&type=track', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("access_token")); 
     xhr.onload = callback;
