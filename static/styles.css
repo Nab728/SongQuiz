@@ -17,8 +17,8 @@ html, body
     /* background-color: aliceblue; */
     /* height: 0; */
     /* change video width */
-    width: 100%;
-    height: 100%;
+    width: 50%;
+    height: 50%;
  }
 #video-container iframe {
     width: 100%;
