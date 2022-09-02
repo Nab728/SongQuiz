@@ -216,11 +216,9 @@ function onPlayerStateChange(event) {
     {
        document.querySelector('.wrapper').style.pointerEvents = "none";
        document.querySelector('.wrapper').style.display = "none";
-        if (!done)
-        {
-            setTimeout(stopVideo, 10000);
-            done = true;
-        }
+        
+        setTimeout(stopVideo, 10000);
+         
     }
 }
 function stopVideo() {
