@@ -28,7 +28,7 @@ function checkTurn()
     return 2;
 }
 document.addEventListener('DOMContentLoaded', function(){
-        fetch("./topHits.json")           
+        fetch("topHits.json")           
         .then((result) => {
             return result.json()
         }).then((data) => {
