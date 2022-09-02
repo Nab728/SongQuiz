@@ -30,15 +30,23 @@ document.addEventListener('DOMContentLoaded', function(){
     });
     document.querySelector("#form").addEventListener('submit', function(e) {
         let answer = document.querySelector("#songTitle").value;
+        let answer2 = document.querySelector("#songArtist").value;
         titleAns = formatString(title);
+        console.log(artist);
         if (answer.toLowerCase().trim() == titleAns.toLowerCase().trim())
         {
             score++;
+            if(answer2.toLowerCase().trim() == artist.toLowerCase().trim())
+            {
+                score++;
+            }
             let textBox = document.querySelector(".score");
             textBox.innerHTML = "Score : " + score;
             document.getElementById("songTitle").value = ""; 
+            document.querySelector("#songArtist").value = "";
         }
         document.querySelector("#answer").innerHTML = "Answer: " + titleAns.trim();
+        document.querySelector("#answer2").innerHTML = "Artist: " + artist.trim();
         
         document.getElementById("submit").style.display = "none";
         nextSong();
@@ -89,20 +97,9 @@ function processRequest()
     {
         var response = JSON.parse(xhr.responseText);
         var result = response["tracks"]["items"][0];
-        // console.log(response["tracks"]);
-        // console.log("Xhr: " + result["name"]);
-        // console.log(result["artists"][0]["name"])
-        let seconds = Math.floor(result["duration_ms"] / 1000.0);
-        // answers =             
-        // {
-        //     "title": result["name"],
-        //     "artist": result["artists"][0]["name"],
-        //     "duration": seconds
-        // }
         
         title  = result["name"];
-        time = seconds;
-        //console.log("Current ans is " + title);
+        artist = result["artists"][0]["name"];
     }
     else
     {
@@ -116,7 +113,7 @@ function replay()
 }
 function chooseSong()
 {
-    console.log(songs.length);
+    //console.log(songs.length);
     let index = Math.floor(Math.random() * songs.length); 
     while (prevSongs.includes(index))
     {
@@ -129,7 +126,6 @@ function chooseSong()
         // removes first element from the array
         prevSongs.shift();
     }
-    console.log(index);
     return index;
 }
 let firstTime = true;
@@ -173,12 +169,10 @@ let start;
 function startSongPlayer()
 { 
     songIndex = chooseSong();
-    //console.log(songIndex);
     checkTitle(songs[songIndex].snippet.title);
-    //console.log("After is " + title);
-    //time is undefined in the beginning for some reason but it still works so ig that's ok
+    //start is undefined in the beginning for some reason but it still works so ig that's ok
+    //0 to length of the song - 20 seconds (so we don't play the end of the song)
     start = Math.floor(Math.random() * (150 - 20 + 1)) + 20;
-    //console.log(songs[songIndex].snippet.title);
     createPlayer(songs[songIndex].snippet.resourceId.videoId, start);
 }
 //set start of clip and play the video
@@ -193,8 +187,11 @@ function onPlayerStateChange(event) {
     {
        document.querySelector('.wrapper').style.pointerEvents = "none";
        document.querySelector('.wrapper').style.display = "none";
-        
-       setTimeout(stopVideo, 10000);
+        if (!done)
+        {
+            setTimeout(stopVideo, 10000);
+            done = true;
+        }
     }
 }
 function stopVideo() {
@@ -205,6 +202,7 @@ function nextSong()
     startSongPlayer();
     titleAns = formatString(title);
     document.querySelector("#answer").innerHTML = "Answer: " + titleAns.trim();
+    document.querySelector("#answer2").innerHTML = "Artist: " + artist.trim();
     setTimeout(function()
     {
         document.querySelector(".wrapper").style.display = "block";
@@ -215,9 +213,10 @@ function nextSong()
     }, 2000);
     document.querySelector(".wrapper").style.pointerEvents = "all";
     document.getElementById("songTitle").value = ""; 
+    document.querySelector("#songArtist").value = "";
     setTimeout(function(){
         document.querySelector("#answer").innerHTML = "";
-        
+        document.querySelector("#answer2").innerHTML = "";
     }, 2000);
     // console.log(songs[songIndex].snippet.title);
 }
