@@ -7,6 +7,7 @@ html, body
 }
 #video-container {
     position: relative;
+    padding-top: 56.25%;
     width: 300%; /* enlarge beyond browser width */
     left: -100%; /* center */
 
