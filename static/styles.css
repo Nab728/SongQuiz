@@ -7,7 +7,6 @@ html, body
 }
 #video-container {
     position: relative;
-    padding-top: 50%;
     width: 300%; /* enlarge beyond browser width */
     left: -100%; /* center */
 
@@ -18,7 +17,8 @@ html, body
     /* background-color: aliceblue; */
     /* height: 0; */
     /* change video width */
-    max-width: 100%;
+    width: 100%;
+    height: 100%;
  }
 #video-container iframe {
     width: 100%;
