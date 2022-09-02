@@ -3,7 +3,7 @@ var prevSongs = [];
 let p1Score = 0;
 let p2Score = 0;
 let songIndex = 0;
-let access_token = "BQDPGCr9dxWQ7P6Znwu0_5QvzLP3PmSYicGAsTRaRYWclIpG7S7GLNf_gM11CdSQdrFmikOZ2r6a_R4_hrENIddG8FHABxRbbRwDj_H_Kcj3hBCDVxHi11DKqiNMPM3Ml3jbK03LzRYkMEkMO-AsiqVApK4jyDqVA6-3x64iKQ";
+let access_token = "BQDtGX9u31DFjbzeNtyrf3NNu98L7-nbYDrOoDduwFSgw3qV3c30BDmVBjAGTsm3wFoNCuzQ0xe5RmEpElAENloJEeGpU3JJMMCtryocwhNKnPe4cOfpwJDZCsyttcrs0MSq8MwAi9bnBxhIvYpo0IWXR06ANuVzWTeUXb4_rrgCTQ-pQeKqIE1JumUun_mt9rv2FlErqmOL3ho-1cdmGaLUMJaNZvBr";
 let xhr;
 var title;
 var artist;
