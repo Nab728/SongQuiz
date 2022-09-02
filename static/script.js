@@ -317,7 +317,7 @@ function onPlayerStateChange(event) {
     if(event.data == YT.PlayerState.PLAYING)
     {
        document.querySelector('.wrapper').style.pointerEvents = "none";
-       document.querySelector('.wrapper').style.display = "none";
+      // document.querySelector('.wrapper').style.display = "none";
        
        setTimeout(stopVideo, 10000);
     
