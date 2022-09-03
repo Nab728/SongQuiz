@@ -250,7 +250,7 @@ function processRequest()
 }
 function replay()
 { 
-    var videoPlayer = document.querySelector('#video-container');
+    var videoPlayer = document.querySelector('#video');
     videoPlayer.src = videoPlayer.src + "&start=" + start + "&end=" + (start + 10);
 }
 function chooseSong()
