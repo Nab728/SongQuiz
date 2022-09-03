@@ -175,8 +175,6 @@ document.addEventListener('DOMContentLoaded', function(){
                     p2Score++;
                 }
             }
-            let textBox = document.querySelector(".score");
-            textBox.innerHTML = "Score : " + score;
             document.getElementById("songTitle").value = ""; 
             document.querySelector("#songArtist").value = "";
         }
