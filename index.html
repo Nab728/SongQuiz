@@ -8,6 +8,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="static/script.js"></script>
     </head>
     <body onload="onPageLoad()">
@@ -23,7 +24,7 @@
                 <input class="btn btn-primary btn-lg mt-5" type="button" onclick="requestAuthorization()" value="Request Authorization"><br/>
             </div>
         <div id="gamePage">
-                <div class="d-flex justify-content-center align-items-center score-container">
+            <div class="d-flex justify-content-center align-items-center score-container">
                 <p class="turn">Player 1 Turn</p> 
             </div>
             <div class="d-flex justify-content-center align-items-center score-container">
@@ -31,18 +32,16 @@
             </div>
             <div class="d-flex justify-content-center align-items-center answer-container">
                 <p id="answer"></p>
-            
             </div>
             <div class="d-flex justify-content-center align-items-center answer-container">
                 <p id="answer2"></p>
             </div>
-            <div class="d-flex justify-content-center align-items-center videos">
-                <div class="wrapper">
-                    <div id="video-container">
-                        
-                    </div>
+            <div class="wrapper">
+                <div class="video-container">
+                    <div id="video"></div>
                 </div>
             </div>
+           
             <div class="d-flex justify-content-center align-items-center container">
                 <form id="form" onsubmit="return false;">
                     <p><label class="title" for="songTitle">Song Title: </label> </p>
