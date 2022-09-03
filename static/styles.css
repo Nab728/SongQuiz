@@ -5,22 +5,48 @@ html, body
     font-size: large;
     font-family: 'Playfair Display', serif;
 }
-#video-container {
+.videos
+{
+    height: 100%;
+    width: 100%;
+}
+.video-container {
     position: relative;
+    padding-bottom: 70%;
     width: 300%; /* enlarge beyond browser width */
     left: -100%; /* center */
 
 }
 .wrapper {
-    
     overflow: hidden;
     /* background-color: aliceblue; */
     /* height: 0; */
     /* change video width */
-    height: 50%;
+    height: 100px;
+    /* to put it in the middle flexbox doesn't work*/
+    margin-left: 48.5%;
+    max-width: 3%;
  }
-#video-container iframe {
-    marign-top: 50%;
+ @media only screen and (max-width: 1200px) {
+    .wrapper {
+        max-width: 5%;
+        margin-left: 47.5%;
+    }
+}
+/* works when you have the meta tag that helps scale the page for mobile devices */
+@media only screen and (max-width: 600px) {
+    .wrapper {
+        max-width: 10%;
+        margin-left: 49.5%;
+    }
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 #startPage
 {
@@ -68,15 +94,5 @@ html, body
     margin: 2vh;
 }
 
-.video-player
-{
-    position: absolute; 
-    /* width: 0;
-    height: 0; */
-    width: 20%;
-    height: 20%;
-    border: 0;
-    /* doesn't let you touch the youtube video player but results in autoplaying not working properly */
-    /* pointer-events: none; */
-}
+
 
