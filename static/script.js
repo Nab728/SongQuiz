@@ -9,6 +9,7 @@ var artist;
 let playerOneTurn = true;
 let start;
 let isClientWorking = false;
+let beforeWidth;
 //load youtube api
 var tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
@@ -323,7 +324,8 @@ function onPlayerStateChange(event) {
     if(event.data == YT.PlayerState.PLAYING)
     {
        document.querySelector('.wrapper').style.pointerEvents = "none";
-       document.querySelector('.wrapper').style.display = "none";
+       beforeWidth = document.querySelector('.wrapper').offsetWidth;
+       document.querySelector('.wrapper').style.width = "0";
        
        setTimeout(stopVideo, 10000);
     
@@ -350,7 +352,7 @@ function nextSong()
     //show submit and video back
     setTimeout(function()
     {
-        document.querySelector(".wrapper").style.display = "block"; 
+        document.querySelector(".wrapper").style.width =  beforeWidth;
         document.querySelector(".wrapper").style.pointerEvents = "all";
     }, 500);
     setTimeout(function(){
