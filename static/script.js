@@ -318,7 +318,6 @@ function onPlayerReady(event)
 {  
     player.seekTo(start);
     event.target.playVideo();
-    replay();
 }
 //if playing make the video disappear
 function onPlayerStateChange(event) {
