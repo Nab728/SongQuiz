@@ -21,7 +21,7 @@ var isWorking = false;
 var done = false;
 
 //url change to your domain of the website
-var redirect_uri = "http://127.0.0.1:5501/templates/index.html"; //switch to the html page you are 
+var redirect_uri = "https://nab728.github.io/SongQuiz/"; //switch to the html page you are 
 var client_id;
 var client_secret;
 
