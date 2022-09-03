@@ -233,7 +233,7 @@ function processRequest()
     }
     else
     {
-        alert("Error replace you access_token");
+        refreshAccessToken();
     }
 }
 function replay()
