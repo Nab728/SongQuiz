@@ -8,7 +8,7 @@ var title;
 var artist;
 let playerOneTurn = true;
 let start;
-let isClientWorking = true;
+let isClientWorking = false;
 //load youtube api
 var tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
@@ -222,6 +222,7 @@ function processRequest()
 {  
     if (xhr.readyState == 4 && xhr.status == 200) 
     {
+        isClientWorking = true;
         var response = JSON.parse(xhr.responseText);
         var result = response["tracks"]["items"][0];
         
@@ -235,7 +236,6 @@ function processRequest()
         if (client_id != "" && client_secret != "" && refresh_token != "" && refresh_token != undefined)
         {
             refreshAccessToken();
-            isClientWorking = true;
         }
         else
         {
