@@ -22,7 +22,7 @@ html, body
     /* background-color: aliceblue; */
     /* height: 0; */
     /* change video width */
-    height: 100px;
+    height: 20px;
     /* to put it in the middle flexbox doesn't work*/
     margin-left: 48.5%;
     max-width: 3%;
