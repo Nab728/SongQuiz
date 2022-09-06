@@ -31,4 +31,4 @@ A: Try refreshing the page and if the bug still occurs multiple times then uhhh 
 
 
 Q: The Answer is incorrect!!!<br><br>
-A: That's mainly the title of the music video's fault so if you add your own in make sure to not have a bunch of random words in the youtube video. Also spotify search api doesn't always return the besy results and I'm sorry about that. The only solution seems to manually input the answers to key value pairs. <br><br>
+A: That's mainly the title of the music video's fault so if you add your own in make sure to not have a bunch of random words in the youtube video. Also spotify search api doesn't always return the best results and I'm sorry about that. The only solution seems to manually input the answers to key value pairs. <br><br>
